@@ -22,7 +22,7 @@ let downloadUrl;
 let binaryName = 'router';
 
 // Apollo Router download URLs
-const version = 'v1.35.0'; // Update to latest stable version
+const version = 'v2.8.0'; // Latest stable version
 
 if (plat === 'darwin') {
   // macOS
