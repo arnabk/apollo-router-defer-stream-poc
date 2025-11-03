@@ -1,6 +1,8 @@
-# Apollo Router @defer & @stream Demo
+# Apollo Router @defer Demo
 
-A full-stack demonstration showcasing the performance benefits of Apollo GraphQL's `@defer` and `@stream` directives using **Apollo Router** (YAML-based configuration).
+A full-stack demonstration showcasing the performance benefits of Apollo GraphQL's `@defer` directive using **Apollo Router** (YAML-based configuration).
+
+> **Note**: `@stream` is not yet supported in Apollo Router v2.8.0. See [docs/STREAM_NOT_SUPPORTED.md](./docs/STREAM_NOT_SUPPORTED.md) for details.
 
 ## 🚀 Quick Start
 
@@ -35,7 +37,7 @@ All detailed documentation is in the `/docs` folder:
 
 ## 🎯 What This Demo Shows
 
-This project provides side-by-side comparisons of GraphQL queries with and without `@defer`, demonstrating:
+This project provides a side-by-side comparison of GraphQL queries with and without `@defer`, demonstrating:
 
 - **40-70% faster** time to first render
 - **Progressive content loading** for better UX

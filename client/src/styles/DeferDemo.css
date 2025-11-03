@@ -93,12 +93,6 @@
   border: 1px solid #10b981;
 }
 
-.badge-stream {
-  background: rgba(139, 92, 246, 0.2);
-  color: #a78bfa;
-  border: 1px solid #a78bfa;
-}
-
 .accordion-actions {
   display: flex;
   align-items: center;
@@ -136,16 +130,6 @@
   transform: scale(1.05);
 }
 
-.stream-button {
-  background: #8b5cf6;
-  color: white;
-}
-
-.stream-button:hover:not(:disabled) {
-  background: #7c3aed;
-  transform: scale(1.05);
-}
-
 .run-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -155,15 +139,6 @@
   font-size: 1.2rem;
   color: #9ca3af;
   transition: transform 0.3s;
-}
-
-.not-supported {
-  color: #f59e0b;
-  font-size: 0.9rem;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  background: rgba(245, 158, 11, 0.1);
-  border-radius: 6px;
 }
 
 /* Accordion Content */
@@ -218,10 +193,6 @@
 
 .defer-chunk {
   border-left: 4px solid #10b981;
-}
-
-.stream-chunk {
-  border-left: 4px solid #8b5cf6;
 }
 
 .chunk-header {

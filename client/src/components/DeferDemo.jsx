@@ -76,22 +76,6 @@ const USER_QUERY_DEFER = gql`
   }
 `;
 
-const USER_QUERY_STREAM = gql`
-  query GetUserStream($id: ID!) {
-    user(id: $id) {
-      id
-      name
-      email
-      posts @stream(initialCount: 0) {
-        id
-        title
-        content
-        likes
-      }
-    }
-  }
-`;
-
 function DeferDemo() {
   const [expandedPanel, setExpandedPanel] = useState(null);
   
@@ -102,19 +86,11 @@ function DeferDemo() {
   const [deferStartTime, setDeferStartTime] = useState(null);
   const seenFields = useRef(new Set());
 
-  const [streamChunks, setStreamChunks] = useState([]);
-  const [streamStartTime, setStreamStartTime] = useState(null);
-  const seenPostIds = useRef(new Set());
-
   const [fetchRegular, { loading: regularLoading }] = useLazyQuery(USER_QUERY_REGULAR, {
     fetchPolicy: 'network-only',
   });
 
   const [fetchDefer, { loading: deferLoading, data: deferData }] = useLazyQuery(USER_QUERY_DEFER, {
-    fetchPolicy: 'network-only',
-  });
-
-  const [fetchStream, { loading: streamLoading, data: streamData }] = useLazyQuery(USER_QUERY_STREAM, {
     fetchPolicy: 'network-only',
   });
 
@@ -195,48 +171,6 @@ function DeferDemo() {
     }
   }, [deferData, deferStartTime]);
 
-  // Watch for stream data changes
-  useEffect(() => {
-    if (!streamData?.user || !streamStartTime) return;
-
-    const elapsed = Date.now() - streamStartTime;
-    const currentData = streamData.user;
-
-    // Check for initial data
-    if (!seenPostIds.current.has('initial') && currentData.id) {
-      seenPostIds.current.add('initial');
-      setStreamChunks(prev => [
-        ...prev,
-        { 
-          time: elapsed, 
-          label: '⚡ Initial data (id, name, email)', 
-          data: {
-            id: currentData.id,
-            name: currentData.name,
-            email: currentData.email
-          }
-        }
-      ]);
-    }
-
-    // Check for each post individually
-    if (currentData.posts && currentData.posts.length > 0) {
-      currentData.posts.forEach((post) => {
-        if (!seenPostIds.current.has(post.id)) {
-          seenPostIds.current.add(post.id);
-          setStreamChunks(prev => [
-            ...prev,
-            { 
-              time: Date.now() - streamStartTime, 
-              label: `📄 Post #${post.id}: "${post.title}"`, 
-              data: { post }
-            }
-          ]);
-        }
-      });
-    }
-  }, [streamData, streamStartTime]);
-
   const executeRegular = () => {
     setRegularChunks([]);
     const startTime = Date.now();
@@ -283,24 +217,6 @@ function DeferDemo() {
     });
   };
 
-  const executeStream = () => {
-    setStreamChunks([]);
-    seenPostIds.current = new Set();
-    const startTime = Date.now();
-    setStreamStartTime(startTime);
-    setExpandedPanel('stream');
-    
-    setStreamChunks([{ 
-      time: 0, 
-      label: '🚀 Query sent',
-      data: null 
-    }]);
-    
-    fetchStream({
-      variables: { id: '1' },
-    });
-  };
-
   const togglePanel = (panel) => {
     setExpandedPanel(expandedPanel === panel ? null : panel);
   };
@@ -320,7 +236,7 @@ function DeferDemo() {
         <div className={`accordion-item ${expandedPanel === 'regular' ? 'expanded' : ''}`}>
           <div className="accordion-header" onClick={() => togglePanel('regular')}>
             <div className="accordion-title">
-              <span className="badge badge-regular">WITHOUT @defer/@stream</span>
+              <span className="badge badge-regular">WITHOUT @defer</span>
               <h2>Regular Query - Waits for Everything</h2>
             </div>
             <div className="accordion-actions">
@@ -409,32 +325,6 @@ function DeferDemo() {
                   <p>⏳ Waiting for more data chunks...</p>
                 </div>
               )}
-            </div>
-          )}
-        </div>
-
-        {/* Stream Query Accordion - Not Supported */}
-        <div className="accordion-item">
-          <div className="accordion-header" onClick={() => togglePanel('stream')}>
-            <div className="accordion-title">
-              <span className="badge badge-stream">WITH @stream</span>
-              <h2>@stream - Coming Soon</h2>
-            </div>
-            <div className="accordion-actions">
-              <span className="not-supported">⚠️ Not supported in Apollo Router v2.8.0</span>
-              <span className="expand-icon">{expandedPanel === 'stream' ? '▼' : '▶'}</span>
-            </div>
-          </div>
-          
-          {expandedPanel === 'stream' && (
-            <div className="accordion-content">
-              <div className="empty-state">
-                <p><strong>@stream is not yet supported in Apollo Router v2.8.0</strong></p>
-                <p>The @stream directive allows streaming individual list items one by one.</p>
-                <p>It will be available in a future version of Apollo Router.</p>
-                <br />
-                <p><em>For now, this demo focuses on @defer which is fully supported and production-ready.</em></p>
-              </div>
             </div>
           )}
         </div>
