@@ -1,0 +1,45 @@
+# Apollo Router Configuration
+# https://www.apollographql.com/docs/router/configuration/overview
+
+# Supergraph schema location
+supergraph:
+  # Path to the supergraph schema
+  path: ./supergraph-schema.graphql
+
+# Server configuration
+server:
+  # The socket address and port to listen on
+  listen: 0.0.0.0:4000
+  
+# Enable @defer and @stream support
+experimental_defer_support: true
+
+# CORS configuration
+cors:
+  origins:
+    - http://localhost:3000
+  allow_headers:
+    - content-type
+    - apollo-require-preflight
+
+# Logging configuration
+telemetry:
+  instrumentation:
+    spans:
+      mode: spec_compliant
+  
+# Plugin configuration
+plugins:
+  # Enable more detailed logging
+  experimental.expose_query_plan: true
+
+# Traffic shaping
+traffic_shaping:
+  all:
+    # Timeout for all requests
+    timeout: 30s
+  
+  # Subgraph specific configuration
+  subgraphs:
+    products:
+      timeout: 30s

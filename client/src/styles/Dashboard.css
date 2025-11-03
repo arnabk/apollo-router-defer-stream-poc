@@ -1,0 +1,196 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.dashboard-header {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-radius: 8px;
+  color: white;
+}
+
+.dashboard-header h2 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.8rem;
+  color: white;
+}
+
+.user-email {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.95rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.dashboard-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-section.full-width {
+  grid-column: 1 / -1;
+}
+
+.activity-card,
+.notifications-card,
+.dashboard-recommendations-card {
+  background: var(--surface-light);
+  border-radius: 8px;
+  padding: 1.25rem;
+  flex: 1;
+}
+
+.activity-card h3,
+.notifications-card h3,
+.dashboard-recommendations-card h3 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.activity-item {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: var(--surface);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.activity-item:last-child {
+  margin-bottom: 0;
+}
+
+.activity-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-content p {
+  margin: 0 0 0.25rem 0;
+  color: var(--text-secondary);
+}
+
+.activity-time {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.notification-item {
+  display: flex;
+  align-items: start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--surface);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.notification-item:last-child {
+  margin-bottom: 0;
+}
+
+.notification-item.unread {
+  background: rgba(99, 102, 241, 0.1);
+  border-left: 3px solid var(--primary);
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-content h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.notification-content p {
+  margin: 0 0 0.25rem 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.notification-time {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.unread-badge {
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+  color: transparent;
+}
+
+.dashboard-recommendations-card .recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.dashboard-recommendations-card .recommendation-item {
+  background: var(--surface);
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.dashboard-recommendations-card .recommendation-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px var(--shadow);
+}
+
+.dashboard-recommendations-card .recommendation-image {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 0 auto 0.75rem;
+}
+
+.dashboard-recommendations-card .recommendation-item h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.dashboard-recommendations-card .recommendation-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--success);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .dashboard-recommendations-card .recommendations-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+

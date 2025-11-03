@@ -1,0 +1,134 @@
+.query-panel {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px var(--shadow);
+  border: 2px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.query-panel:hover {
+  box-shadow: 0 8px 12px var(--shadow);
+}
+
+.query-panel.regular {
+  border-top: 4px solid var(--warning);
+}
+
+.query-panel.defer {
+  border-top: 4px solid var(--success);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.panel-title {
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.panel-badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.panel-badge.regular {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--warning);
+}
+
+.panel-badge.defer {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--success);
+}
+
+.execute-button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.execute-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow);
+}
+
+.execute-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.timing-display {
+  background: var(--surface-light);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.timing-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.timing-label {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.timing-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-light);
+}
+
+.timing-item.first-data .timing-value {
+  color: var(--success);
+}
+
+.timing-item.total .timing-value {
+  color: var(--warning);
+}
+
+.timing-benefit {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 3px solid var(--success);
+  color: var(--success);
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.panel-content {
+  min-height: 200px;
+}
+
+@media (max-width: 768px) {
+  .panel-title {
+    font-size: 1.1rem;
+  }
+
+  .execute-button {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+

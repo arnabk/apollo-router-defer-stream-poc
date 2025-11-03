@@ -1,0 +1,48 @@
+.loading-card {
+  background: var(--surface-light);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.loading-card-header {
+  margin-bottom: 1rem;
+}
+
+.loading-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--surface-light) 0%,
+    var(--border) 50%,
+    var(--surface-light) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.loading-title {
+  height: 24px;
+  width: 60%;
+  margin-bottom: 0.5rem;
+}
+
+.loading-line {
+  height: 16px;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.loading-line.short {
+  width: 70%;
+}
+

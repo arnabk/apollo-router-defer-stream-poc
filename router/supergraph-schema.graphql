@@ -1,0 +1,157 @@
+schema
+  @link(url: "https://specs.apollo.dev/link/v1.0")
+  @link(url: "https://specs.apollo.dev/join/v0.3", for: EXECUTION)
+{
+  query: Query
+}
+
+directive @join__enumValue(graph: join__Graph!) repeatable on ENUM_VALUE
+
+directive @join__field(graph: join__Graph, requires: join__FieldSet, provides: join__FieldSet, type: String, external: Boolean, override: String, usedOverridden: Boolean) repeatable on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @join__graph(name: String!, url: String!) on ENUM_VALUE
+
+directive @join__implements(graph: join__Graph!, interface: String!) repeatable on OBJECT | INTERFACE
+
+directive @join__type(graph: join__Graph!, key: join__FieldSet, extension: Boolean! = false, resolvable: Boolean! = true, isInterfaceObject: Boolean! = false) repeatable on OBJECT | INTERFACE | UNION | ENUM | INPUT_OBJECT | SCALAR
+
+directive @join__unionMember(graph: join__Graph!, member: String!) repeatable on UNION
+
+directive @link(url: String, as: String, for: link__Purpose, import: [link__Import]) repeatable on SCHEMA
+
+scalar join__FieldSet
+
+enum join__Graph {
+  PRODUCTS @join__graph(name: "products", url: "http://localhost:4001")
+}
+
+scalar link__Import
+
+enum link__Purpose {
+  """
+  `SECURITY` features provide metadata necessary to securely resolve fields.
+  """
+  SECURITY
+
+  """
+  `EXECUTION` features provide metadata necessary for operation execution.
+  """
+  EXECUTION
+}
+
+type Activity
+  @join__type(graph: PRODUCTS)
+{
+  id: ID!
+  type: String!
+  description: String!
+  timestamp: String!
+}
+
+type Comment
+  @join__type(graph: PRODUCTS)
+{
+  id: ID!
+  author: String!
+  text: String!
+  createdAt: String!
+}
+
+type Dashboard
+  @join__type(graph: PRODUCTS)
+{
+  user: User!
+  recentActivity: [Activity!]!
+  recommendations: [Product!]!
+  notifications: [Notification!]!
+}
+
+type Inventory
+  @join__type(graph: PRODUCTS)
+{
+  inStock: Boolean!
+  quantity: Int!
+  warehouse: String!
+}
+
+type Notification
+  @join__type(graph: PRODUCTS)
+{
+  id: ID!
+  title: String!
+  message: String!
+  read: Boolean!
+  timestamp: String!
+}
+
+type Post
+  @join__type(graph: PRODUCTS)
+{
+  id: ID!
+  title: String!
+  content: String!
+  createdAt: String!
+  likes: Int!
+  comments: [Comment!]!
+}
+
+type Product
+  @join__type(graph: PRODUCTS, key: "id")
+{
+  id: ID!
+  name: String!
+  description: String!
+  price: Float!
+  inventory: Inventory!
+  reviews: [Review!]!
+  recommendations: [Product!]!
+}
+
+type Query
+  @join__type(graph: PRODUCTS)
+{
+  user(id: ID!): User
+  product(id: ID!): Product
+  dashboard: Dashboard
+}
+
+type Review
+  @join__type(graph: PRODUCTS)
+{
+  id: ID!
+  author: String!
+  rating: Int!
+  text: String!
+  createdAt: String!
+}
+
+type User
+  @join__type(graph: PRODUCTS, key: "id")
+{
+  id: ID!
+  name: String!
+  email: String!
+  profile: UserProfile!
+  posts: [Post!]!
+  friends: [User!]!
+  analytics: UserAnalytics!
+}
+
+type UserAnalytics
+  @join__type(graph: PRODUCTS)
+{
+  totalPosts: Int!
+  totalLikes: Int!
+  totalComments: Int!
+  engagementRate: Float!
+}
+
+type UserProfile
+  @join__type(graph: PRODUCTS)
+{
+  avatar: String!
+  bio: String!
+  location: String!
+  website: String
+}
+
