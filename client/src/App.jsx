@@ -7,7 +7,6 @@ function App() {
     <div className="app">
       <header className="header">
         <h1>Apollo @defer Demonstration</h1>
-        <p>See how @defer loads data incrementally vs loading everything at once</p>
       </header>
       <main className="main-content">
         <DeferDemo />
