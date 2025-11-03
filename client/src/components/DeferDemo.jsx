@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 import '../styles/DeferDemo.css';
 
@@ -84,14 +84,84 @@ function DeferDemo() {
   
   const [deferChunks, setDeferChunks] = useState([]);
   const [deferStartTime, setDeferStartTime] = useState(null);
+  const previousDeferData = useRef(null);
 
   const [fetchRegular, { loading: regularLoading }] = useLazyQuery(USER_QUERY_REGULAR, {
     fetchPolicy: 'network-only',
   });
 
-  const [fetchDefer, { loading: deferLoading }] = useLazyQuery(USER_QUERY_DEFER, {
+  const [fetchDefer, { loading: deferLoading, data: deferData }] = useLazyQuery(USER_QUERY_DEFER, {
     fetchPolicy: 'network-only',
   });
+
+  // Watch for defer data changes
+  useEffect(() => {
+    if (!deferData?.user || !deferStartTime) return;
+
+    const elapsed = Date.now() - deferStartTime;
+    const currentData = deferData.user;
+    const prevData = previousDeferData.current;
+
+    // First chunk - basic info
+    if (!prevData) {
+      setDeferChunks(prev => [
+        ...prev,
+        { 
+          time: elapsed, 
+          label: '⚡ Initial data (id, name, email)', 
+          data: {
+            id: currentData.id,
+            name: currentData.name,
+            email: currentData.email
+          }
+        }
+      ]);
+    } else {
+      // Check for new data chunks
+      if (currentData?.profile && !prevData?.profile) {
+        setDeferChunks(prev => [
+          ...prev,
+          { 
+            time: elapsed, 
+            label: '👤 Profile data received', 
+            data: { profile: currentData.profile }
+          }
+        ]);
+      }
+      if (currentData?.posts && !prevData?.posts) {
+        setDeferChunks(prev => [
+          ...prev,
+          { 
+            time: elapsed, 
+            label: '📝 Posts data received', 
+            data: { posts: currentData.posts }
+          }
+        ]);
+      }
+      if (currentData?.friends && !prevData?.friends) {
+        setDeferChunks(prev => [
+          ...prev,
+          { 
+            time: elapsed, 
+            label: '👥 Friends data received', 
+            data: { friends: currentData.friends }
+          }
+        ]);
+      }
+      if (currentData?.analytics && !prevData?.analytics) {
+        setDeferChunks(prev => [
+          ...prev,
+          { 
+            time: elapsed, 
+            label: '📊 Analytics data received', 
+            data: { analytics: currentData.analytics }
+          }
+        ]);
+      }
+    }
+
+    previousDeferData.current = currentData;
+  }, [deferData, deferStartTime]);
 
   const executeRegular = () => {
     setRegularChunks([]);
@@ -123,6 +193,7 @@ function DeferDemo() {
 
   const executeDefer = () => {
     setDeferChunks([]);
+    previousDeferData.current = null;
     const startTime = Date.now();
     setDeferStartTime(startTime);
     setExpandedPanel('defer');
@@ -133,74 +204,8 @@ function DeferDemo() {
       data: null 
     }]);
     
-    let previousData = null;
-
     fetchDefer({
       variables: { id: '1' },
-      onCompleted: (data) => {
-        const elapsed = Date.now() - startTime;
-        
-        // Determine what's new in this chunk
-        if (!previousData) {
-          // First chunk - basic info
-          setDeferChunks(prev => [
-            ...prev,
-            { 
-              time: elapsed, 
-              label: '⚡ Initial data (id, name, email)', 
-              data: {
-                id: data.user.id,
-                name: data.user.name,
-                email: data.user.email
-              }
-            }
-          ]);
-        } else {
-          // Subsequent chunks - show what's new
-          if (data.user?.profile && !previousData?.profile) {
-            setDeferChunks(prev => [
-              ...prev,
-              { 
-                time: elapsed, 
-                label: '👤 Profile data received', 
-                data: { profile: data.user.profile }
-              }
-            ]);
-          }
-          if (data.user?.posts && !previousData?.posts) {
-            setDeferChunks(prev => [
-              ...prev,
-              { 
-                time: elapsed, 
-                label: '📝 Posts data received', 
-                data: { posts: data.user.posts }
-              }
-            ]);
-          }
-          if (data.user?.friends && !previousData?.friends) {
-            setDeferChunks(prev => [
-              ...prev,
-              { 
-                time: elapsed, 
-                label: '👥 Friends data received', 
-                data: { friends: data.user.friends }
-              }
-            ]);
-          }
-          if (data.user?.analytics && !previousData?.analytics) {
-            setDeferChunks(prev => [
-              ...prev,
-              { 
-                time: elapsed, 
-                label: '📊 Analytics data received', 
-                data: { analytics: data.user.analytics }
-              }
-            ]);
-          }
-        }
-        
-        previousData = data.user;
-      },
     });
   };
 
@@ -317,11 +322,11 @@ function DeferDemo() {
       <div className="summary">
         <div className="summary-card">
           <h3>🔴 Without @defer</h3>
-          <p>Server processes all data before responding. You wait ~3600ms seeing nothing, then everything appears at once.</p>
+          <p>Server processes all data before responding. You wait ~15 seconds seeing nothing, then everything appears at once.</p>
         </div>
         <div className="summary-card">
           <h3>🟢 With @defer</h3>
-          <p>Server sends critical data immediately (~100ms), then streams the rest. You see data right away and it keeps arriving!</p>
+          <p>Server sends critical data immediately (~100ms), then streams the rest every 2-5 seconds. You see data right away and it keeps arriving!</p>
         </div>
       </div>
 

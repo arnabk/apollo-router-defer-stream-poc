@@ -39,24 +39,24 @@ export const resolvers = {
       return users[user.id];
     },
     profile: async (user) => {
-      // Medium delay: Profile data (800ms)
-      await delay(800);
+      // Medium delay: Profile data (2000ms)
+      await delay(2000);
       return userProfiles[user.id];
     },
     posts: async (user) => {
-      // Slow: Posts data (1200ms)
-      await delay(1200);
+      // Slow: Posts data (3000ms)
+      await delay(3000);
       return posts.filter((post) => post.userId === user.id);
     },
     friends: async (user) => {
-      // Medium delay: Friends data (1000ms)
-      await delay(1000);
+      // Medium delay: Friends data (4000ms)
+      await delay(4000);
       // Return other users as friends
       return Object.values(users).filter((u) => u.id !== user.id);
     },
     analytics: async (user) => {
-      // Very slow: Analytics computation (1500ms)
-      await delay(1500);
+      // Very slow: Analytics computation (5000ms)
+      await delay(5000);
       const userPosts = posts.filter((post) => post.userId === user.id);
       const totalLikes = userPosts.reduce((sum, post) => sum + post.likes, 0);
       const totalComments = userPosts.reduce(
