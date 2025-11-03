@@ -1,4 +1,4 @@
-import { ApolloServer } from '@apollo/subgraph';
+import { ApolloServer } from '@apollo/server';
 import { buildSubgraphSchema } from '@apollo/subgraph';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { typeDefs } from './schema.js';
