@@ -157,6 +157,15 @@
   transition: transform 0.3s;
 }
 
+.not-supported {
+  color: #f59e0b;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background: rgba(245, 158, 11, 0.1);
+  border-radius: 6px;
+}
+
 /* Accordion Content */
 .accordion-content {
   padding: 1.5rem;

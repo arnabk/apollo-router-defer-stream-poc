@@ -310,7 +310,7 @@ function DeferDemo() {
       
       {/* Info Banner */}
       <div className="info-banner">
-        <p>👇 Click "Run" buttons to see @defer (chunks) vs @stream (list items) vs regular queries</p>
+        <p>👇 Click "Run" buttons to see the difference between @defer and regular queries</p>
       </div>
 
       {/* Accordion Panels */}
@@ -413,53 +413,28 @@ function DeferDemo() {
           )}
         </div>
 
-        {/* Stream Query Accordion */}
-        <div className={`accordion-item ${expandedPanel === 'stream' ? 'expanded' : ''}`}>
+        {/* Stream Query Accordion - Not Supported */}
+        <div className="accordion-item">
           <div className="accordion-header" onClick={() => togglePanel('stream')}>
             <div className="accordion-title">
               <span className="badge badge-stream">WITH @stream</span>
-              <h2>@stream - Loads List Items One by One</h2>
+              <h2>@stream - Coming Soon</h2>
             </div>
             <div className="accordion-actions">
-              <button 
-                className="run-button stream-button" 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  executeStream();
-                }}
-                disabled={streamLoading}
-              >
-                {streamLoading ? '⏳ Loading...' : '▶ Run @stream Query'}
-              </button>
+              <span className="not-supported">⚠️ Not supported in Apollo Router v2.8.0</span>
               <span className="expand-icon">{expandedPanel === 'stream' ? '▼' : '▶'}</span>
             </div>
           </div>
           
           {expandedPanel === 'stream' && (
             <div className="accordion-content">
-              {streamChunks.map((chunk, idx) => (
-                <div key={idx} className="data-chunk stream-chunk">
-                  <div className="chunk-header">
-                    <span className="chunk-time">{chunk.time}ms</span>
-                    <span className="chunk-label">{chunk.label}</span>
-                  </div>
-                  {chunk.data && (
-                    <div className="chunk-data">
-                      <pre>{JSON.stringify(chunk.data, null, 2)}</pre>
-                    </div>
-                  )}
-                </div>
-              ))}
-              {streamChunks.length === 0 && (
-                <div className="empty-state">
-                  <p>Click "Run @stream Query" to see list items loading one by one</p>
-                </div>
-              )}
-              {streamLoading && streamChunks.length > 0 && (
-                <div className="loading-indicator">
-                  <p>⏳ Waiting for more list items...</p>
-                </div>
-              )}
+              <div className="empty-state">
+                <p><strong>@stream is not yet supported in Apollo Router v2.8.0</strong></p>
+                <p>The @stream directive allows streaming individual list items one by one.</p>
+                <p>It will be available in a future version of Apollo Router.</p>
+                <br />
+                <p><em>For now, this demo focuses on @defer which is fully supported and production-ready.</em></p>
+              </div>
             </div>
           )}
         </div>

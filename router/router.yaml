@@ -1,7 +1,11 @@
 # Apollo Router v2 Configuration
 # https://www.apollographql.com/docs/router/configuration/overview
 
-# @defer support is enabled by default in Router v2
+# @defer and @stream support
+# Both are enabled by default in Router v2, but we can configure them
+supergraph:
+  # Defer is enabled by default
+  defer_support: true
 
 # CORS configuration (v2 format - policy-based)
 cors:
