@@ -1,26 +1,17 @@
-# Apollo Router Configuration
+# Apollo Router v2 Configuration
 # https://www.apollographql.com/docs/router/configuration/overview
 
-# Supergraph schema location
-supergraph:
-  # Path to the supergraph schema
-  path: ./supergraph-schema.graphql
+# @defer support is enabled by default in Router v2
 
-# Server configuration
-server:
-  # The socket address and port to listen on
-  listen: 0.0.0.0:4000
-  
-# Enable @defer and @stream support
-experimental_defer_support: true
-
-# CORS configuration
+# CORS configuration (v2 format - policy-based)
 cors:
-  origins:
-    - http://localhost:3000
-  allow_headers:
-    - content-type
-    - apollo-require-preflight
+  policies:
+    - origins:
+        - http://localhost:3000
+      allow_credentials: false
+      allow_headers:
+        - content-type
+        - apollo-require-preflight
 
 # Logging configuration
 telemetry:
@@ -30,7 +21,6 @@ telemetry:
   
 # Plugin configuration
 plugins:
-  # Enable more detailed logging
   experimental.expose_query_plan: true
 
 # Traffic shaping

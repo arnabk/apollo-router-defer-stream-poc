@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "concurrently \"npm run dev:router\" \"npm run dev:subgraph\" \"npm run dev:client\"",
-    "dev:router": "cd router && ./router --config router.yaml --supergraph supergraph-schema.graphql",
+    "dev:router": "cd router && ./router --config router.yaml --supergraph $(pwd)/supergraph-schema.graphql --listen 0.0.0.0:4000",
     "dev:subgraph": "npm run dev --workspace=subgraph",
     "dev:client": "npm run dev --workspace=client",
     "install:all": "npm install && npm install --workspace=subgraph && npm install --workspace=client",
