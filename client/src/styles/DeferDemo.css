@@ -156,6 +156,17 @@
   font-size: 1rem;
 }
 
+.loading-indicator {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: #fbbf24;
+  font-size: 1rem;
+  font-weight: 500;
+  background: rgba(251, 191, 36, 0.1);
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
 /* Data Chunks */
 .data-chunk {
   margin-bottom: 1rem;

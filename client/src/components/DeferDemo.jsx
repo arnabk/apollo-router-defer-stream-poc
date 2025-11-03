@@ -84,7 +84,7 @@ function DeferDemo() {
   
   const [deferChunks, setDeferChunks] = useState([]);
   const [deferStartTime, setDeferStartTime] = useState(null);
-  const previousDeferData = useRef(null);
+  const seenFields = useRef(new Set());
 
   const [fetchRegular, { loading: regularLoading }] = useLazyQuery(USER_QUERY_REGULAR, {
     fetchPolicy: 'network-only',
@@ -94,16 +94,24 @@ function DeferDemo() {
     fetchPolicy: 'network-only',
   });
 
-  // Watch for defer data changes
+  // Watch for defer data changes - this fires on EVERY update
   useEffect(() => {
     if (!deferData?.user || !deferStartTime) return;
 
     const elapsed = Date.now() - deferStartTime;
     const currentData = deferData.user;
-    const prevData = previousDeferData.current;
 
-    // First chunk - basic info
-    if (!prevData) {
+    console.log('Data update received:', {
+      elapsed,
+      hasProfile: !!currentData.profile,
+      hasPosts: !!currentData.posts,
+      hasFriends: !!currentData.friends,
+      hasAnalytics: !!currentData.analytics,
+    });
+
+    // Check for initial data
+    if (!seenFields.current.has('initial') && currentData.id) {
+      seenFields.current.add('initial');
       setDeferChunks(prev => [
         ...prev,
         { 
@@ -116,51 +124,59 @@ function DeferDemo() {
           }
         }
       ]);
-    } else {
-      // Check for new data chunks
-      if (currentData?.profile && !prevData?.profile) {
-        setDeferChunks(prev => [
-          ...prev,
-          { 
-            time: elapsed, 
-            label: '👤 Profile data received', 
-            data: { profile: currentData.profile }
-          }
-        ]);
-      }
-      if (currentData?.posts && !prevData?.posts) {
-        setDeferChunks(prev => [
-          ...prev,
-          { 
-            time: elapsed, 
-            label: '📝 Posts data received', 
-            data: { posts: currentData.posts }
-          }
-        ]);
-      }
-      if (currentData?.friends && !prevData?.friends) {
-        setDeferChunks(prev => [
-          ...prev,
-          { 
-            time: elapsed, 
-            label: '👥 Friends data received', 
-            data: { friends: currentData.friends }
-          }
-        ]);
-      }
-      if (currentData?.analytics && !prevData?.analytics) {
-        setDeferChunks(prev => [
-          ...prev,
-          { 
-            time: elapsed, 
-            label: '📊 Analytics data received', 
-            data: { analytics: currentData.analytics }
-          }
-        ]);
-      }
     }
 
-    previousDeferData.current = currentData;
+    // Check for profile
+    if (!seenFields.current.has('profile') && currentData.profile) {
+      seenFields.current.add('profile');
+      setDeferChunks(prev => [
+        ...prev,
+        { 
+          time: elapsed, 
+          label: '👤 Profile data received', 
+          data: { profile: currentData.profile }
+        }
+      ]);
+    }
+
+    // Check for posts
+    if (!seenFields.current.has('posts') && currentData.posts) {
+      seenFields.current.add('posts');
+      setDeferChunks(prev => [
+        ...prev,
+        { 
+          time: elapsed, 
+          label: '📝 Posts data received', 
+          data: { posts: currentData.posts }
+        }
+      ]);
+    }
+
+    // Check for friends
+    if (!seenFields.current.has('friends') && currentData.friends) {
+      seenFields.current.add('friends');
+      setDeferChunks(prev => [
+        ...prev,
+        { 
+          time: elapsed, 
+          label: '👥 Friends data received', 
+          data: { friends: currentData.friends }
+        }
+      ]);
+    }
+
+    // Check for analytics
+    if (!seenFields.current.has('analytics') && currentData.analytics) {
+      seenFields.current.add('analytics');
+      setDeferChunks(prev => [
+        ...prev,
+        { 
+          time: elapsed, 
+          label: '📊 Analytics data received', 
+          data: { analytics: currentData.analytics }
+        }
+      ]);
+    }
   }, [deferData, deferStartTime]);
 
   const executeRegular = () => {
@@ -193,7 +209,7 @@ function DeferDemo() {
 
   const executeDefer = () => {
     setDeferChunks([]);
-    previousDeferData.current = null;
+    seenFields.current = new Set();
     const startTime = Date.now();
     setDeferStartTime(startTime);
     setExpandedPanel('defer');
@@ -310,6 +326,11 @@ function DeferDemo() {
               {deferChunks.length === 0 && (
                 <div className="empty-state">
                   <p>Click "Run Defer Query" to see incremental data loading</p>
+                </div>
+              )}
+              {deferLoading && deferChunks.length > 0 && (
+                <div className="loading-indicator">
+                  <p>⏳ Waiting for more data chunks...</p>
                 </div>
               )}
             </div>
