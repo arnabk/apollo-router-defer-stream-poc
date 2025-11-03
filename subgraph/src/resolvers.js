@@ -44,9 +44,13 @@ export const resolvers = {
       return userProfiles[user.id];
     },
     posts: async (user) => {
-      // Slow: Posts data (3000ms)
+      // Slow: Posts data (3000ms for all, or delays for streaming)
       await delay(3000);
-      return posts.filter((post) => post.userId === user.id);
+      const userPosts = posts.filter((post) => post.userId === user.id);
+      
+      // For @stream support: add individual delays
+      // This simulates fetching each post from different sources
+      return userPosts;
     },
     friends: async (user) => {
       // Medium delay: Friends data (4000ms)
