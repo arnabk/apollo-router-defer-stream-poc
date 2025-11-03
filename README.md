@@ -2,7 +2,7 @@
 
 A full-stack demonstration showcasing the performance benefits of Apollo GraphQL's `@defer` directive using **Apollo Router** (YAML-based configuration).
 
-> **Note**: `@stream` is not yet supported in Apollo Router v2.8.0. See [docs/STREAM_NOT_SUPPORTED.md](./docs/STREAM_NOT_SUPPORTED.md) for details.
+> **Note**: `@stream` is not yet supported in Apollo Router v2.8.0. See [docs/stream-not-supported.md](./docs/stream-not-supported.md) for details.
 
 ## 🚀 Quick Start
 
@@ -30,10 +30,10 @@ Visit `http://localhost:3000` to see the demo in action!
 
 All detailed documentation is in the `/docs` folder:
 
-- **[Overview](./docs/OVERVIEW.md)** - What are @defer and @stream? Why use them?
-- **[Setup Guide](./docs/SETUP.md)** - Installation and configuration
-- **[Usage Guide](./docs/USAGE.md)** - How to use the demo interface
-- **[Technical Details](./docs/TECHNICAL.md)** - Implementation deep dive
+- **[Overview](./docs/overview.md)** - What are @defer and @stream? Why use them?
+- **[Setup Guide](./docs/setup.md)** - Installation and configuration
+- **[Usage Guide](./docs/usage.md)** - How to use the demo interface
+- **[Technical Details](./docs/technical.md)** - Implementation deep dive
 
 ## 🎯 What This Demo Shows
 
@@ -52,7 +52,7 @@ This project provides a side-by-side comparison of GraphQL queries with and with
 
 ## 📖 Learn More
 
-Start with the [Overview](./docs/OVERVIEW.md) to understand the concepts, then follow the [Setup Guide](./docs/SETUP.md) to get running.
+Start with the [Overview](./docs/overview.md) to understand the concepts, then follow the [Setup Guide](./docs/setup.md) to get running.
 
 ## 📄 License
 
