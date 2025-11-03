@@ -318,18 +318,6 @@ function DeferDemo() {
 
       </div>
 
-      {/* Summary */}
-      <div className="summary">
-        <div className="summary-card">
-          <h3>🔴 Without @defer</h3>
-          <p>Server processes all data before responding. You wait ~15 seconds seeing nothing, then everything appears at once.</p>
-        </div>
-        <div className="summary-card">
-          <h3>🟢 With @defer</h3>
-          <p>Server sends critical data immediately (~100ms), then streams the rest every 2-5 seconds. You see data right away and it keeps arriving!</p>
-        </div>
-      </div>
-
     </div>
   );
 }
