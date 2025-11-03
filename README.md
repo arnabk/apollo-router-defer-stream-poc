@@ -28,7 +28,6 @@ See the `/docs` folder for detailed information:
 - **[setup.md](./docs/setup.md)** - Installation and configuration
 - **[usage.md](./docs/usage.md)** - How to use the demo
 - **[technical.md](./docs/technical.md)** - Technical implementation details
-- **[presentation.md](./docs/presentation.md)** - Guide for presenting this demo
 - **[stream-not-supported.md](./docs/stream-not-supported.md)** - Why @stream is not available
 
 ## License
