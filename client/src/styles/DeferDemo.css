@@ -93,6 +93,12 @@
   border: 1px solid #10b981;
 }
 
+.badge-stream {
+  background: rgba(139, 92, 246, 0.2);
+  color: #a78bfa;
+  border: 1px solid #a78bfa;
+}
+
 .accordion-actions {
   display: flex;
   align-items: center;
@@ -127,6 +133,16 @@
 
 .defer-button:hover:not(:disabled) {
   background: #059669;
+  transform: scale(1.05);
+}
+
+.stream-button {
+  background: #8b5cf6;
+  color: white;
+}
+
+.stream-button:hover:not(:disabled) {
+  background: #7c3aed;
   transform: scale(1.05);
 }
 
@@ -193,6 +209,10 @@
 
 .defer-chunk {
   border-left: 4px solid #10b981;
+}
+
+.stream-chunk {
+  border-left: 4px solid #8b5cf6;
 }
 
 .chunk-header {
